@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     public GameObject SoldierDest;
     public GameObject stalkerEnemy;
     public Animator anim;
-
     void Start()
     {
         SoldierDestnavMesh = GetComponent<NavMeshAgent> ();
@@ -19,9 +18,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        anim.SetFloat("InputMagnitudeZ", transform.position.z);
-        anim.SetFloat("InputMagnitudeX", transform.position.x);
+        anim.SetFloat("InputMagnitudeZ", -1);
+        anim.SetFloat("InputMagnitudeX", 0);
 
         SoldierDestnavMesh.SetDestination(SoldierDest.transform.position); 
         // stalkerEnemy.GetComponent<Animator>().Play("Run");
