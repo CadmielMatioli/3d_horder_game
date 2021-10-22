@@ -8,13 +8,21 @@ public class Tps : MonoBehaviour
     public Animator anim;
     public GameObject cam;
     public GameObject playerModel;
+	float gravity = -9.8f;
+
+	public float speed = 4.5f;
+	public float sensitivity = 30.0f;
+	public float WaterHeight = 15.5f;
 
     void Update()
     {
+
         float camY = cam.transform.rotation.eulerAngles.y;
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+
+		CheckForWaterHeight ();
 
         anim.SetFloat("InputMagnitudeZ", z);
         anim.SetFloat("InputMagnitudeX", x);
@@ -29,4 +37,13 @@ public class Tps : MonoBehaviour
             cam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(cam.GetComponent<Camera>().fieldOfView, 60f, 0.5f);
         }
     }
+
+    	void CheckForWaterHeight(){
+		if (transform.position.y < WaterHeight) {
+			gravity = 0f;			
+		} else {
+			gravity = -9.8f;
+		}
+	}
+    
 }

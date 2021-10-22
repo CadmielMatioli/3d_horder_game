@@ -14,8 +14,19 @@ public class CharController_Motor : MonoBehaviour {
 	public bool webGLRightClickRotation = true;
 	float gravity = -9.8f;
 
+	public float jumpForce = 5f;
+	private float moveY;
+	public Animator anim;
 
-	void Start(){
+	public float GroundCheckSize;
+	public Vector3 GroundCheckPosition;
+	public LayerMask LayerMask;
+
+    private void Awake()
+    {
+		transform.tag = "Player";
+	}
+    void Start(){
 		//LockCursor ();
 		character = GetComponent<CharacterController> ();
 		if (Application.isEditor) {
@@ -36,6 +47,16 @@ public class CharController_Motor : MonoBehaviour {
 
 
 	void Update(){
+		if (Input.GetButtonDown("Sprint"))
+        {
+			Debug.Log(Input.GetButtonDown("Sprint"));
+			speed = 9.1f;
+
+        }
+        if (Input.GetButtonUp("Sprint")){
+			speed = 4.5f;
+        }
+
 		moveFB = Input.GetAxis ("Horizontal") * speed;
 		moveLR = Input.GetAxis ("Vertical") * speed;
 
@@ -60,8 +81,31 @@ public class CharController_Motor : MonoBehaviour {
 			CameraRotation (cam, rotX, rotY);
 		}
 
+
+
+		var groundCheck = Physics.OverlapSphere(transform.position + GroundCheckPosition, GroundCheckSize, LayerMask);
+		if (groundCheck.Length == 0)
+        {
+			anim.SetBool("Jump", false);
+			if (Input.GetButtonDown("Jump"))
+			{
+				moveY = jumpForce;
+				anim.SetBool("Jump", true);
+			}
+        }
+        else
+        {
+			anim.SetBool("Jump", true);
+		}
+
+
+		moveY += gravity * Time.deltaTime;
+		movement.y = moveY;
+
 		movement = transform.rotation * movement;
 		character.Move (movement * Time.deltaTime);
+
+       
 	}
 
 
