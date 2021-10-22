@@ -18,8 +18,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        anim.SetFloat("InputMagnitudeZ", -1);
         anim.SetFloat("InputMagnitudeX", 0);
+        anim.SetFloat("InputMagnitudeZ", -1);
 
         SoldierDestnavMesh.SetDestination(SoldierDest.transform.position); 
         // stalkerEnemy.GetComponent<Animator>().Play("Run");
