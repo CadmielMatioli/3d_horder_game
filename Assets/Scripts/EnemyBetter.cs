@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyBetter : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class EnemyBetter : MonoBehaviour
     public float TargetDistance;
 
     public int AttackTrigger;
+    public Slider vidaPlayer;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +24,12 @@ public class EnemyBetter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*Player morrendo*/
+        if(vidaPlayer.value == 0)
+        {
+            player.SetActive(false);
+        }
+
         SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
         stalkerEnemy.GetComponent<Animator>().Play("Run");
         //stalkerEnemy.GetComponent<Animation>().Play("dying");
@@ -31,12 +40,13 @@ public class EnemyBetter : MonoBehaviour
             Debug.Log("teste");
         }
     }
-
+    /*Retirar vida do player*/
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("teste1");
-
-        AttackTrigger = 1;
+        if (collider.tag == "Player")
+        {
+            vidaPlayer.value--;
+        }
     }
 
     void OnTriggerExit()
@@ -45,4 +55,6 @@ public class EnemyBetter : MonoBehaviour
 
         AttackTrigger = 0;
     }
+
+
 }
