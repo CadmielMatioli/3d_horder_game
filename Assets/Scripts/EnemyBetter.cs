@@ -8,7 +8,10 @@ public class EnemyBetter : MonoBehaviour
     NavMeshAgent SoldierDestnavMesh;
     public GameObject SoldierDest;
     public GameObject stalkerEnemy;
-    public Animator anim;
+    public float TargetDistance;
+
+    public int AttackTrigger;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +23,26 @@ public class EnemyBetter : MonoBehaviour
     {
         SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
         stalkerEnemy.GetComponent<Animator>().Play("Run");
+        //stalkerEnemy.GetComponent<Animation>().Play("dying");
+        //stalkerEnemy.GetComponent<Animation>().Play("Walk");
+        //stalkerEnemy.GetComponent<Animation>().Play("Attak");
+        if (AttackTrigger == 1)
+        {
+            Debug.Log("teste");
+        }
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        Debug.Log("teste1");
+
+        AttackTrigger = 1;
+    }
+
+    void OnTriggerExit()
+    {
+        Debug.Log("teste1");
+
+        AttackTrigger = 0;
     }
 }
