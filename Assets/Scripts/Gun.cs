@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    public int damage;
+    public float range;
+    public Camera mainCamera;
 
-    public Transform bulletPrefab;
 
-    Animator animator;
-    AudioSource audioSource;
-
-    Transform shotSpawn;
-    Transform shellSpawn;
-
-    string gunName = "Sniper";
+    public void OnBeforeTransformParentChanged()
+    {
+        
+    }
 
     private void Awake()
     {
 
-        animator = transform.Find("M4A1 Sopmod").GetComponent<Animator>();
-        audioSource = transform.GetComponent<AudioSource>();
-        shotSpawn = transform.Find("shotSpawn");
-        shellSpawn = transform.Find("shellSpawn");
 
     }
 
@@ -34,17 +29,23 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetButton("Fire1"))
         {
-
-            animator.Play("Shoot", -1, 0);
-
-            audioSource.Play();
-
-
-            // implementação do tiro vem aqui....
-            // ShootRaycast();
-            //ShootBullet();
+            Shoot();
         }
+    }
+
+    void Shoot()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
+        {
+            Debug.Log("Acertou" + hit.transform.name);
+        }
+    }
+
+     void OnGUI()
+    {
+        GUI.Label(new Rect(Screen.width/2,Screen.height/2,100,20), "+");
     }
 }
