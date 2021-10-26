@@ -7,7 +7,7 @@ public class Gun : MonoBehaviour
     public int damage;
     public float range;
     public Camera mainCamera;
-
+    //public ParticleSystem fireShot; 
 
     public void OnBeforeTransformParentChanged()
     {
@@ -37,10 +37,12 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
+        //fireShot.Play();
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
         {
             Debug.Log("Acertou" + hit.transform.name);
+            
         }
     }
 

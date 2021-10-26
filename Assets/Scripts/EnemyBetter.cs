@@ -4,37 +4,47 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
 public class EnemyBetter : MonoBehaviour
 {
     NavMeshAgent SoldierDestnavMesh;
     public GameObject SoldierDest;
     public GameObject stalkerEnemy;
     public float TargetDistance;
+    public Animator anim;
 
     public int AttackTrigger;
     public Slider vidaPlayer;
     public GameObject player;
-
+    private float distance;
     // Start is called before the first frame update
     void Start()
     {
         SoldierDestnavMesh = GetComponent<NavMeshAgent>();
+        distance = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         /*Player morrendo*/
-        if(vidaPlayer.value == 0)
+        StartCoroutine(CounterLife());
+        SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
+        distance = Vector3.Distance(stalkerEnemy.transform.position, player.transform.position);
+        Debug.Log(distance);
+        if (distance <= 5)
         {
-            player.SetActive(false);
+            anim.Play("Attack");
+
+        }
+        else
+        {
+            anim.Play("Run");
+
         }
 
-        SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
-        stalkerEnemy.GetComponent<Animator>().Play("Run");
-        //stalkerEnemy.GetComponent<Animation>().Play("dying");
-        //stalkerEnemy.GetComponent<Animation>().Play("Walk");
-        //stalkerEnemy.GetComponent<Animation>().Play("Attak");
+        //StartCoroutine(AttackAnimation());
+
         if (AttackTrigger == 1)
         {
             Debug.Log("teste");
@@ -46,6 +56,10 @@ public class EnemyBetter : MonoBehaviour
         if (collider.tag == "Player")
         {
             vidaPlayer.value--;
+            if(vidaPlayer.value == 0)
+            {
+                player.GetComponent<Animator>().Play("dying");
+            }
         }
     }
 
@@ -56,5 +70,14 @@ public class EnemyBetter : MonoBehaviour
         AttackTrigger = 0;
     }
 
+    IEnumerator CounterLife() 
+    {
+        if(vidaPlayer.value == 0)
+        {
+            yield return new WaitForSeconds(4);
+            player.SetActive(false);
+            //SceneManager.LoadScene("Nome da cena");
+        }
 
+    }
 }
