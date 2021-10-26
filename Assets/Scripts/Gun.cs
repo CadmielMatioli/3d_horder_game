@@ -7,7 +7,9 @@ public class Gun : MonoBehaviour
     public int damage;
     public float range;
     public Camera mainCamera;
-    //public ParticleSystem fireShot; 
+    public ParticleSystem fireShot;
+    public ParticleSystem bloodShot;
+    public AudioSource soundShot;
 
     public void OnBeforeTransformParentChanged()
     {
@@ -31,18 +33,31 @@ public class Gun : MonoBehaviour
     {
         if (Input.GetButton("Fire1"))
         {
+            fireShot.Play();
+            soundShot.Play();
             Shoot();
+        }
+        else
+        {
+            fireShot.Stop();
+
         }
     }
 
     void Shoot()
     {
-        //fireShot.Play();
+        
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
         {
+            bloodShot.Play();
+
             Debug.Log("Acertou" + hit.transform.name);
-            
+        }
+        else
+        {
+            bloodShot.Stop();
+
         }
     }
 
