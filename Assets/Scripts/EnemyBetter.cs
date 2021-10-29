@@ -31,23 +31,24 @@ public class EnemyBetter : MonoBehaviour
         StartCoroutine(CounterLife());
         SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
         distance = Vector3.Distance(stalkerEnemy.transform.position, player.transform.position);
-        Debug.Log(distance);
+        //Debug.Log(distance);
         if (distance <= 5)
         {
             anim.Play("Attack");
+            anim.SetBool("attack", true);
 
         }
         else
         {
+            anim.SetBool("attack", false);
             anim.Play("Run");
-
         }
 
         //StartCoroutine(AttackAnimation());
 
         if (AttackTrigger == 1)
         {
-            Debug.Log("teste");
+            //Debug.Log("teste");
         }
     }
     /*Retirar vida do player*/

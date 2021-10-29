@@ -49,7 +49,7 @@ public class CharController_Motor : MonoBehaviour {
 	void Update(){
 		if (Input.GetButtonDown("Sprint"))
         {
-			Debug.Log(Input.GetButtonDown("Sprint"));
+			//Debug.Log(Input.GetButtonDown("Sprint"));
 			speed = 9.1f;
 
         }
