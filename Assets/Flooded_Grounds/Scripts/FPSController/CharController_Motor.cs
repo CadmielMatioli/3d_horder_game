@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharController_Motor : MonoBehaviour {
 
-	public float speed = 4.5f;
+	public float speed = 2.5f;
 	public float sensitivity = 30.0f;
 	public float WaterHeight = 15.5f;
 	CharacterController character;
@@ -14,7 +14,7 @@ public class CharController_Motor : MonoBehaviour {
 	public bool webGLRightClickRotation = true;
 	float gravity = -9.8f;
 
-	public float jumpForce = 5f;
+	public float jumpForce = 3f;
 	private float moveY;
 	public Animator anim;
 
@@ -22,7 +22,8 @@ public class CharController_Motor : MonoBehaviour {
 	public Vector3 GroundCheckPosition;
 	public LayerMask LayerMask;
 
-    private void Awake()
+
+	private void Awake()
     {
 		transform.tag = "Player";
 	}
@@ -47,14 +48,15 @@ public class CharController_Motor : MonoBehaviour {
 
 
 	void Update(){
+
 		if (Input.GetButtonDown("Sprint"))
         {
 			//Debug.Log(Input.GetButtonDown("Sprint"));
-			speed = 9.1f;
+			speed = speed * 1.5f;
 
         }
         if (Input.GetButtonUp("Sprint")){
-			speed = 4.5f;
+			speed = 2.5f;
         }
 
 		moveFB = Input.GetAxis ("Horizontal") * speed;
@@ -68,10 +70,35 @@ public class CharController_Motor : MonoBehaviour {
 
 		CheckForWaterHeight ();
 
-
 		Vector3 movement = new Vector3 (moveFB, gravity, moveLR);
 
+		Debug.Log(character.isGrounded);
+		if (character.isGrounded)
+		{
+			Debug.Log("ta no chao");
+		}
+		else
+		{
+			Debug.Log("saiu do chao");
 
+		}
+
+		if (Input.GetButtonDown("Jump") && character.isGrounded == true)
+		{
+			anim.SetBool("Jump", true);
+			moveY = jumpForce;
+        }
+        else
+        {
+			anim.SetBool("Jump", false);
+        }
+
+
+		moveY += gravity * Time.deltaTime;
+		movement.y = moveY;
+
+		movement = transform.rotation * movement;
+		character.Move(movement * Time.deltaTime);
 
 		if (webGLRightClickRotation) {
 			if (Input.GetKey (KeyCode.Mouse0)) {
@@ -80,32 +107,24 @@ public class CharController_Motor : MonoBehaviour {
 		} else if (!webGLRightClickRotation) {
 			CameraRotation (cam, rotX, rotY);
 		}
-
-
-
+		
 		var groundCheck = Physics.OverlapSphere(transform.position + GroundCheckPosition, GroundCheckSize, LayerMask);
-		if (groundCheck.Length == 0)
-        {
-			anim.SetBool("Jump", false);
-			if (Input.GetButtonDown("Jump"))
-			{
-				moveY = jumpForce;
-				anim.SetBool("Jump", true);
-			}
-        }
-        else
-        {
-			anim.SetBool("Jump", true);
-		}
+		Debug.Log(groundCheck);
+		//if (groundCheck.Length == 0)
+		//{
+		//	if (Input.GetButtonDown("Jump"))
+		//	{
+		//		moveY = jumpForce;
+		//		anim.SetBool("Jump", true);
+		//	}
+		//}
 
+		//moveY += gravity * Time.deltaTime;
+		//movement.y = moveY;
 
-		moveY += gravity * Time.deltaTime;
-		movement.y = moveY;
+		//movement = transform.rotation * movement;
+		//character.Move (movement * Time.deltaTime);
 
-		movement = transform.rotation * movement;
-		character.Move (movement * Time.deltaTime);
-
-       
 	}
 
 
@@ -113,8 +132,4 @@ public class CharController_Motor : MonoBehaviour {
 		transform.Rotate (0, rotX * Time.deltaTime, 0);
 		cam.transform.Rotate (-rotY * Time.deltaTime, 0, 0);
 	}
-
-
-
-
 }
