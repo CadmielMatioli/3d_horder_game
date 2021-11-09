@@ -10,6 +10,7 @@ public class EnemyBetter : MonoBehaviour
     NavMeshAgent SoldierDestnavMesh;
     public GameObject SoldierDest;
     public GameObject stalkerEnemy;
+    private bool triggerOnAwake = false;
     public float TargetDistance;
     public Animator anim;
 
@@ -29,7 +30,10 @@ public class EnemyBetter : MonoBehaviour
     {
         /*Player morrendo*/
         StartCoroutine(CounterLife());
-        SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
+        if (triggerOnAwake)
+        {
+            SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
+        }
         distance = Vector3.Distance(stalkerEnemy.transform.position, player.transform.position);
         //Debug.Log(distance);
         if (distance <= 5)
@@ -54,6 +58,10 @@ public class EnemyBetter : MonoBehaviour
     /*Retirar vida do player*/
     void OnTriggerEnter(Collider collider)
     {
+        if (collider.tag == "Seguir")
+        {
+            triggerOnAwake = true;
+        }
         if (collider.tag == "Player")
         {
             vidaPlayer.value--;

@@ -18,11 +18,6 @@ public class CharController_Motor : MonoBehaviour {
 	private float moveY;
 	public Animator anim;
 
-	public float GroundCheckSize;
-	public Vector3 GroundCheckPosition;
-	public LayerMask LayerMask;
-
-
 	private void Awake()
     {
 		transform.tag = "Player";
@@ -48,7 +43,6 @@ public class CharController_Motor : MonoBehaviour {
 
 
 	void Update(){
-
 		if (Input.GetButtonDown("Sprint"))
         {
 			//Debug.Log(Input.GetButtonDown("Sprint"));
@@ -71,17 +65,6 @@ public class CharController_Motor : MonoBehaviour {
 		CheckForWaterHeight ();
 
 		Vector3 movement = new Vector3 (moveFB, gravity, moveLR);
-
-		Debug.Log(character.isGrounded);
-		if (character.isGrounded)
-		{
-			Debug.Log("ta no chao");
-		}
-		else
-		{
-			Debug.Log("saiu do chao");
-
-		}
 
 		if (Input.GetButtonDown("Jump") && character.isGrounded == true)
 		{
@@ -108,23 +91,6 @@ public class CharController_Motor : MonoBehaviour {
 			CameraRotation (cam, rotX, rotY);
 		}
 		
-		var groundCheck = Physics.OverlapSphere(transform.position + GroundCheckPosition, GroundCheckSize, LayerMask);
-		Debug.Log(groundCheck);
-		//if (groundCheck.Length == 0)
-		//{
-		//	if (Input.GetButtonDown("Jump"))
-		//	{
-		//		moveY = jumpForce;
-		//		anim.SetBool("Jump", true);
-		//	}
-		//}
-
-		//moveY += gravity * Time.deltaTime;
-		//movement.y = moveY;
-
-		//movement = transform.rotation * movement;
-		//character.Move (movement * Time.deltaTime);
-
 	}
 
 

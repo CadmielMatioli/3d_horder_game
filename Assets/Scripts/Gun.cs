@@ -8,6 +8,7 @@ public class Gun : MonoBehaviour
     public float range;
     public Camera mainCamera;
     public GameObject player;
+    public GameObject bullet;
     public ParticleSystem fireShot;
     public ParticleSystem bloodShot;
     public ParticleSystem bloodShot2;
@@ -45,7 +46,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
         {
-            if(hit.transform.name == "SoldierZombie")
+            if (hit.transform.name == "SoldierZombie")
             {
                 bloodShot.Play();
             }
