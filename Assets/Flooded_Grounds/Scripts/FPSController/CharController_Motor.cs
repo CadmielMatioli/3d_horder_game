@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CharController_Motor : MonoBehaviour {
+public class CharController_Motor : MonoBehaviour
+{
 
 	public float speed = 2.5f;
 	public float sensitivity = 30.0f;
@@ -18,63 +20,73 @@ public class CharController_Motor : MonoBehaviour {
 	private float moveY;
 	public Animator anim;
 
+	public Slider vidaPlayer;
+
 	private void Awake()
-    {
+	{
 		transform.tag = "Player";
 	}
-    void Start(){
+	void Start()
+	{
 		//LockCursor ();
-		character = GetComponent<CharacterController> ();
-		if (Application.isEditor) {
+		character = GetComponent<CharacterController>();
+		if (Application.isEditor)
+		{
 			webGLRightClickRotation = false;
 			sensitivity = sensitivity * 1.5f;
 		}
 	}
 
 
-	void CheckForWaterHeight(){
-		if (transform.position.y < WaterHeight) {
-			gravity = 0f;			
-		} else {
+	void CheckForWaterHeight()
+	{
+		if (transform.position.y < WaterHeight)
+		{
+			gravity = 0f;
+		}
+		else
+		{
 			gravity = -9.8f;
 		}
 	}
 
 
-
-	void Update(){
+	void Update()
+	{
+		StartCoroutine(CounterLife());
 		if (Input.GetButtonDown("Sprint"))
-        {
+		{
 			//Debug.Log(Input.GetButtonDown("Sprint"));
 			speed = speed * 1.5f;
 
-        }
-        if (Input.GetButtonUp("Sprint")){
+		}
+		if (Input.GetButtonUp("Sprint"))
+		{
 			speed = 2.5f;
-        }
+		}
 
-		moveFB = Input.GetAxis ("Horizontal") * speed;
-		moveLR = Input.GetAxis ("Vertical") * speed;
+		moveFB = Input.GetAxis("Horizontal") * speed;
+		moveLR = Input.GetAxis("Vertical") * speed;
 
-		rotX = Input.GetAxis ("Mouse X") * sensitivity;
-		rotY = Input.GetAxis ("Mouse Y") * sensitivity;
+		rotX = Input.GetAxis("Mouse X") * sensitivity;
+		rotY = Input.GetAxis("Mouse Y") * sensitivity;
 
 		//rotX = Input.GetKey (KeyCode.Joystick1Button4);
 		//rotY = Input.GetKey (KeyCode.Joystick1Button5);
 
-		CheckForWaterHeight ();
+		CheckForWaterHeight();
 
-		Vector3 movement = new Vector3 (moveFB, gravity, moveLR);
+		Vector3 movement = new Vector3(moveFB, gravity, moveLR);
 
 		if (Input.GetButtonDown("Jump") && character.isGrounded == true)
 		{
 			anim.SetBool("Jump", true);
 			moveY = jumpForce;
-        }
-        else
-        {
+		}
+		else
+		{
 			anim.SetBool("Jump", false);
-        }
+		}
 
 
 		moveY += gravity * Time.deltaTime;
@@ -83,19 +95,48 @@ public class CharController_Motor : MonoBehaviour {
 		movement = transform.rotation * movement;
 		character.Move(movement * Time.deltaTime);
 
-		if (webGLRightClickRotation) {
-			if (Input.GetKey (KeyCode.Mouse0)) {
-				CameraRotation (cam, rotX, rotY);
+		if (webGLRightClickRotation)
+		{
+			if (Input.GetKey(KeyCode.Mouse0))
+			{
+				CameraRotation(cam, rotX, rotY);
 			}
-		} else if (!webGLRightClickRotation) {
-			CameraRotation (cam, rotX, rotY);
 		}
-		
+		else if (!webGLRightClickRotation)
+		{
+			CameraRotation(cam, rotX, rotY);
+		}
+
 	}
 
 
-	void CameraRotation(GameObject cam, float rotX, float rotY){		
-		transform.Rotate (0, rotX * Time.deltaTime, 0);
-		cam.transform.Rotate (-rotY * Time.deltaTime, 0, 0);
+	void CameraRotation(GameObject cam, float rotX, float rotY)
+	{
+		transform.Rotate(0, rotX * Time.deltaTime, 0);
+		cam.transform.Rotate(-rotY * Time.deltaTime, 0, 0);
 	}
+
+	void OnTriggerEnter(Collider collider)
+	{
+		if (collider.tag == "Zombie")
+		{
+			vidaPlayer.value--;
+			if (vidaPlayer.value == 0)
+            {
+				anim.Play("dying");
+			}
+		}
+	}
+
+	IEnumerator CounterLife()
+	{
+		if (vidaPlayer.value == 0)
+		{
+			yield return new WaitForSeconds(4);
+			Destroy(gameObject);
+			//SceneManager.LoadScene("Nome da cena");
+		}
+
+	}
+
 }

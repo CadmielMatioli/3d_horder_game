@@ -11,24 +11,24 @@ public class EnemyBetter : MonoBehaviour
     public GameObject SoldierDest;
     public GameObject stalkerEnemy;
     private bool triggerOnAwake = false;
-    public float TargetDistance;
-    public Animator anim;
-
+    private Animator anim;
     public int AttackTrigger;
-    public Slider vidaPlayer;
     public GameObject player;
     private float distance;
+    public ParticleSystem bloodShot;
+    public int zombieLife;
+
     // Start is called before the first frame update
     void Start()
     {
         SoldierDestnavMesh = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
         distance = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*Player morrendo*/
         StartCoroutine(CounterLife());
         if (triggerOnAwake)
         {
@@ -47,45 +47,40 @@ public class EnemyBetter : MonoBehaviour
             anim.SetBool("attack", false);
             anim.Play("Run");
         }
-
-        //StartCoroutine(AttackAnimation());
-
-        if (AttackTrigger == 1)
-        {
-            //Debug.Log("teste");
-        }
     }
-    /*Retirar vida do player*/
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Seguir")
         {
             triggerOnAwake = true;
         }
-        if (collider.tag == "Player")
+        if (collider.tag == "Bullet")
         {
-            vidaPlayer.value--;
-            if(vidaPlayer.value == 0)
+            zombieLife--;
+            if (zombieLife == 0)
             {
-                player.GetComponent<Animator>().Play("dying");
+                anim.Play("zombie dying");
+                Debug.Log(anim);
             }
+            bloodShot.Play();
+        }
+        else
+        {
+            bloodShot.Stop();
         }
     }
 
     void OnTriggerExit()
     {
-        Debug.Log("teste1");
-
         AttackTrigger = 0;
     }
 
     IEnumerator CounterLife() 
     {
-        if(vidaPlayer.value == 0)
+        if(zombieLife == 0)
         {
             yield return new WaitForSeconds(4);
-            player.SetActive(false);
-            //SceneManager.LoadScene("Nome da cena");
+            Destroy(stalkerEnemy);
         }
 
     }

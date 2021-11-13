@@ -8,7 +8,6 @@ public class Gun : MonoBehaviour
     public float range;
     public Camera mainCamera;
     public GameObject player;
-    public GameObject bullet;
     public ParticleSystem fireShot;
     public ParticleSystem bloodShot;
     public ParticleSystem bloodShot2;
@@ -16,6 +15,11 @@ public class Gun : MonoBehaviour
     public float fireRate = 0.5f;
     private float nextFire = 0.5f;
     public Animator playerAnim;
+    public float speed = 100f;
+
+    public float bulletSpeed = -10;
+    //public GameObject bullet;
+    public Rigidbody bullet;
 
     public void OnBeforeTransformParentChanged()
     {
@@ -42,25 +46,12 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
         {
-            if (hit.transform.name == "SoldierZombie")
-            {
-                bloodShot.Play();
-            }
-            else if(hit.transform.name == "derrick")
-            {
-                bloodShot2.Play();
-            }
-            else
-            {
-                bloodShot.Stop();
-                bloodShot2.Stop();
-            }
+            Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, transform.position, transform.rotation);
+            bulletClone.velocity = transform.forward * bulletSpeed;
         }
-
     }
 
      void OnGUI()
@@ -90,9 +81,7 @@ public class Gun : MonoBehaviour
 
     IEnumerator StopFireAnim()
     {
-
         yield return new WaitForSeconds(0.1f);
         fireShot.Play();
-
     }
 }
