@@ -7,6 +7,7 @@ public class Gun : MonoBehaviour
     public int damage;
     public float range;
     public Camera mainCamera;
+    public Camera bulletCamera;
     public GameObject player;
     public ParticleSystem fireShot;
     public ParticleSystem bloodShot;
@@ -46,12 +47,8 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
-        {
-            Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, transform.position, transform.rotation);
-            bulletClone.velocity = transform.forward * bulletSpeed;
-        }
+        Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, bulletCamera.transform.position, transform.rotation);
+        bulletClone.velocity = mainCamera.transform.forward  * bulletSpeed;
     }
 
      void OnGUI()

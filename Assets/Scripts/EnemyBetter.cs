@@ -16,8 +16,7 @@ public class EnemyBetter : MonoBehaviour
     public GameObject player;
     private float distance;
     public ParticleSystem bloodShot;
-    public int zombieLife;
-
+    public Slider zombieLife;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +39,6 @@ public class EnemyBetter : MonoBehaviour
         {
             anim.Play("Attack");
             anim.SetBool("attack", true);
-
         }
         else
         {
@@ -56,10 +54,10 @@ public class EnemyBetter : MonoBehaviour
         }
         if (collider.tag == "Bullet")
         {
-            zombieLife--;
-            if (zombieLife == 0)
+            zombieLife.value--;
+            if (zombieLife.value == 0)
             {
-                anim.Play("zombie dying");
+                anim.Play("dying");
                 Debug.Log(anim);
             }
             bloodShot.Play();
@@ -77,7 +75,7 @@ public class EnemyBetter : MonoBehaviour
 
     IEnumerator CounterLife() 
     {
-        if(zombieLife == 0)
+        if(zombieLife.value == 0)
         {
             yield return new WaitForSeconds(4);
             Destroy(stalkerEnemy);
