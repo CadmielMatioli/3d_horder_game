@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Flooded_Grounds/Scenes/Menu.unity
     guid: 7b0e1d2f37b2f7943a013232d9d1d3ae
+  - enabled: 1
+    path: Assets/Flooded_Grounds/Scenes/Scene_A22.unity
+    guid: c0d944ca9defd20449bc336e50d75a08
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: e066fec304e30734296fbf7c82e2bf04
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: e704e6daa11174d44ac9517dd745553d
   m_configObjects: {}

@@ -32,9 +32,15 @@ public class EnemyBetter : MonoBehaviour
         if (triggerOnAwake)
         {
             SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
+            Debug.Log("achou o player");
+
         }
+        //else
+        //{
+        //    SoldierDestnavMesh.velocity = Vector3.zero;
+        //    SoldierDestnavMesh.isStopped = true; // was agent.Stop();
+        //}   
         distance = Vector3.Distance(stalkerEnemy.transform.position, player.transform.position);
-        //Debug.Log(distance);
         if (distance <= 5)
         {
             anim.Play("Attack");
@@ -58,7 +64,6 @@ public class EnemyBetter : MonoBehaviour
             if (zombieLife.value == 0)
             {
                 anim.Play("dying");
-                Debug.Log(anim);
             }
             bloodShot.Play();
         }
