@@ -9,37 +9,22 @@ public class Note : MonoBehaviour
 
     void Start()
     {
-
+        noteImage.GetComponent<Image>().enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "Rescue")
+        if (!collider.CompareTag("Rescue"))
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                noteImage.enabled = true;
-            }
-            if (Input.GetKeyUp(KeyCode.F))
-            {
-                noteImage.enabled = false;
-            }
+            noteImage.GetComponent<Image>().enabled = true;
         }
 
     }
     void OnTriggerExit(Collider collider)
     {
-        if (collider.tag == "Rescue")
+        if (!collider.CompareTag("Rescue"))
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                noteImage.enabled = false;
-            }
+            noteImage.GetComponent<Image>().enabled = false;
         }
     }
 }
