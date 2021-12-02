@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class CharController_Motor : MonoBehaviour
 {
 
@@ -134,7 +134,7 @@ public class CharController_Motor : MonoBehaviour
 		{
 			yield return new WaitForSeconds(4);
 			Destroy(gameObject);
-			//SceneManager.LoadScene("Nome da cena");
+			SceneManager.LoadScene("GameOver");
 		}
 
 	}

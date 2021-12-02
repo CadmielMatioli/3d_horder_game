@@ -10,7 +10,6 @@ public class Hostage : MonoBehaviour
         if (collider.tag == "Rescue")
         {
             SceneManager.LoadScene("Win");
-            Debug.Log("Salvou");
         }
     }
 }
