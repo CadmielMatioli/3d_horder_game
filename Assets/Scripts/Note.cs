@@ -6,17 +6,31 @@ using UnityEngine.UI;
 public class Note : MonoBehaviour
 {
     public Image noteImage;
-
+    public Text hsLabel;
     void Start()
     {
-        noteImage.GetComponent<Image>().enabled = false;
+        if (noteImage)
+        {
+            noteImage.GetComponent<Image>().enabled = false;
+        }
+        if (hsLabel)
+        {
+            hsLabel.GetComponent<Text>().enabled = false;
+        }
     }
 
     void OnTriggerEnter(Collider collider)
     {
         if (!collider.CompareTag("Rescue"))
         {
-            noteImage.GetComponent<Image>().enabled = true;
+            if (noteImage)
+            {
+                noteImage.GetComponent<Image>().enabled = true;
+            }
+            if (hsLabel)
+            {
+                hsLabel.GetComponent<Text>().enabled = true;
+            }
         }
 
     }
@@ -24,7 +38,14 @@ public class Note : MonoBehaviour
     {
         if (!collider.CompareTag("Rescue"))
         {
-            noteImage.GetComponent<Image>().enabled = false;
+            if (noteImage)
+            {
+                noteImage.GetComponent<Image>().enabled = false;
+            }
+            if (hsLabel)
+            {
+                hsLabel.GetComponent<Text>().enabled = false;
+            }
         }
     }
 }

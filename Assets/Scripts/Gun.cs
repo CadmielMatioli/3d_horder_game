@@ -51,10 +51,10 @@ public class Gun : MonoBehaviour
         bulletClone.velocity = mainCamera.transform.forward  * bulletSpeed;
     }
 
-     void OnGUI()
-    {
-        GUI.Label(new Rect(Screen.width/2,Screen.height/2,100,20), "+");
-    }
+    // void OnGUI()
+    //{
+    //    GUI.Label(new Rect(Screen.width/2,Screen.height/2,100,20), "+");
+    //}
 
     void Soting()
     {
