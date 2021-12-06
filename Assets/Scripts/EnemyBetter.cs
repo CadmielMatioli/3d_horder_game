@@ -22,6 +22,7 @@ public class EnemyBetter : MonoBehaviour
     {
         SoldierDestnavMesh = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+
         distance = 0;
     }
 
@@ -32,14 +33,7 @@ public class EnemyBetter : MonoBehaviour
         if (triggerOnAwake)
         {
             SoldierDestnavMesh.SetDestination(SoldierDest.transform.position);
-            Debug.Log("achou o player");
-
         }
-        //else
-        //{
-        //    SoldierDestnavMesh.velocity = Vector3.zero;
-        //    SoldierDestnavMesh.isStopped = true; // was agent.Stop();
-        //}   
         distance = Vector3.Distance(stalkerEnemy.transform.position, player.transform.position);
         if (distance <= 5)
         {
@@ -76,6 +70,8 @@ public class EnemyBetter : MonoBehaviour
     void OnTriggerExit()
     {
         AttackTrigger = 0;
+        SoldierDestnavMesh.SetDestination(transform.position);
+
     }
 
     IEnumerator CounterLife() 
